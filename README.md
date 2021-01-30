@@ -1,6 +1,17 @@
-# Disaster Response Pipeline Project
+# Udacity Data Science Project 2 (Disaster Response Pipeline)
 
-### Instructions:
+This repository contains the code I wrote for tackling project 2 in the Data Scientist Nanodegree by Udacity.
+
+## Dataset
+
+In this project I used the [Placeholder](https://www.kaggle.com/). 
+
+## Questions Answered
+
+Lorem ipsum
+
+## Deployment
+
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
@@ -12,3 +23,14 @@
     `python run.py`
 
 3. Go to http://0.0.0.0:3001/
+
+## Built With
+
+* [Jupyter Notebook](https://jupyter.org) - Used for coding and documentation
+
+
+## Authors
+
+* **Carsten Granig**
+
+
