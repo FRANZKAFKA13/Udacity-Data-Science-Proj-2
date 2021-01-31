@@ -1,42 +1,78 @@
 import sys
 
 
-def load_data(messages_filepath, categories_filepath):
-    pass
+def extract_data(messages_filepath, categories_filepath):
+    import pandas as pd
+
+    messages = pd.read_csv(messages_filepath)
+    categories = pd.read_csv(categories_filepath)
+
+    print('    ' + str(messages.shape[0]) + ' messages extracted from .csv.')
+    print('    ' + str(categories.shape[0]) + ' categories extracted from .csv.')
+
+    df = messages.merge(categories, how='left', on='id')
+    return df
 
 
-def clean_data(df):
-    pass
+def transform_data(df):
+    import pandas as pd
+
+    category_df = df['categories'].str.split(pat=";", expand=True)
+
+    categories_raw = category_df.loc[0]
+    categories_clean = [x[:-2] for x in categories_raw]
+    category_df.columns = categories_clean
+
+    print('    ' + str(category_df.shape[1]) + ' categories transformed to dummy variables.')
+
+    for category in category_df:
+        category_df[category] = category_df[category].str[-1]
+        category_df[category] = category_df[category].astype('int32')
+
+    df = df.drop(labels=['categories'], axis=1)
+    df = pd.concat([df, category_df], axis=1)
+
+    duplicate_count = df.duplicated().sum()
+    df = df.drop_duplicates()
+    print('    ' + str(duplicate_count) + ' duplicates dropped.')
+
+    return df
 
 
-def save_data(df, database_filename):
-    pass  
+def load_data(df, database_filename):
+    from sqlalchemy import create_engine
+    engine = create_engine('sqlite:///' + str(database_filename))
+
+    try:
+        df.to_sql('messages_categorized', engine, index=False)
+        print('Cleaned data saved to database!')
+    except ValueError:
+        print("Warning: Database already exists, did not finish script...")
 
 
 def main():
+
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
 
-        print('Loading data...\n    MESSAGES: {}\n    CATEGORIES: {}'
+        print('Extracting data...\n    MESSAGES: {}\n    CATEGORIES: {}'
               .format(messages_filepath, categories_filepath))
-        df = load_data(messages_filepath, categories_filepath)
+        df = extract_data(messages_filepath, categories_filepath)
 
-        print('Cleaning data...')
-        df = clean_data(df)
-        
-        print('Saving data...\n    DATABASE: {}'.format(database_filepath))
-        save_data(df, database_filepath)
-        
-        print('Cleaned data saved to database!')
-    
+        print('Transforming data...')
+        df = transform_data(df)
+
+        print('Loading data...\n    DATABASE: {}'.format(database_filepath))
+        load_data(df, database_filepath)
+
     else:
-        print('Please provide the filepaths of the messages and categories '\
-              'datasets as the first and second argument respectively, as '\
-              'well as the filepath of the database to save the cleaned data '\
-              'to as the third argument. \n\nExample: python process_data.py '\
-              'disaster_messages.csv disaster_categories.csv '\
-              'DisasterResponse.db')
+        print('Please provide the filepaths of the messages and categories '
+              'datasets as the first and second argument respectively, as '
+              'well as the filepath of the database to save the cleaned data '
+              'to as the third argument. \n\nExample run command:\npython process_data.py disaster_messages.csv '
+              'disaster_categories.csv disaster_response.db')
+
 
 
 if __name__ == '__main__':
