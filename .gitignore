@@ -11,4 +11,3 @@ venv/
 
 # ML model exports
 instructions/disaster_response_model.sav
-models/classifier.pkl
