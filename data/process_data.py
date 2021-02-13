@@ -1,8 +1,9 @@
 import sys
-
+import pandas as pd
+from sqlalchemy import create_engine
 
 def extract_data(messages_filepath, categories_filepath):
-    import pandas as pd
+
 
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
@@ -15,7 +16,6 @@ def extract_data(messages_filepath, categories_filepath):
 
 
 def transform_data(df):
-    import pandas as pd
 
     category_df = df['categories'].str.split(pat=";", expand=True)
 
@@ -40,7 +40,7 @@ def transform_data(df):
 
 
 def load_data(df, database_filename):
-    from sqlalchemy import create_engine
+
     engine = create_engine('sqlite:///' + str(database_filename))
 
     try:
