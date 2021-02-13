@@ -2,8 +2,15 @@ import sys
 import pandas as pd
 from sqlalchemy import create_engine
 
-def extract_data(messages_filepath, categories_filepath):
 
+def extract_data(messages_filepath, categories_filepath):
+    """
+    Extract step of the ETL pipeline.
+
+    :param messages_filepath: The filepath of the message.csv file
+    :param categories_filepath: The filepath of the categories.csv file
+    :return: The two .csv files combined in a pandas dataframe
+    """
 
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
@@ -16,7 +23,12 @@ def extract_data(messages_filepath, categories_filepath):
 
 
 def transform_data(df):
+    """
+    Transform step of the ETL pipeline.
 
+    :param df: The dataframe created from the .csv files
+    :return: Returns a cleaned dataframe with categories transformed to dummy variables
+    """
     category_df = df['categories'].str.split(pat=";", expand=True)
 
     categories_raw = category_df.loc[0]
@@ -40,7 +52,13 @@ def transform_data(df):
 
 
 def load_data(df, database_filename):
+    """
+    Extract step of the ETL pipeline, saving the cleaned dataset in a SQLite database.
 
+    :param df: The cleaned dataframe
+    :param database_filename: The target database for the load step of the ETL process
+    :return:
+    """
     engine = create_engine('sqlite:///' + str(database_filename))
 
     try:
@@ -51,7 +69,6 @@ def load_data(df, database_filename):
 
 
 def main():
-
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
@@ -72,7 +89,6 @@ def main():
               'well as the filepath of the database to save the cleaned data '
               'to as the third argument. \n\nExample run command:\npython process_data.py disaster_messages.csv '
               'disaster_categories.csv disaster_response.db')
-
 
 
 if __name__ == '__main__':
