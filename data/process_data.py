@@ -32,8 +32,8 @@ def transform_data(df):
     df = df.drop(labels=['categories'], axis=1)
     df = pd.concat([df, category_df], axis=1)
 
-    duplicate_count = df.duplicated().sum()
-    df = df.drop_duplicates()
+    duplicate_count = df.duplicated('id').sum()
+    df = df.drop_duplicates('id')
     print('    ' + str(duplicate_count) + ' duplicates dropped.')
 
     return df
@@ -44,10 +44,10 @@ def load_data(df, database_filename):
     engine = create_engine('sqlite:///' + str(database_filename))
 
     try:
-        df.to_sql('messages_categorized', engine, index=False)
+        df.to_sql('messages_categorized', engine, index=False, if_exists='replace')
         print('Cleaned data saved to database!')
     except ValueError:
-        print("Warning: Database already exists, did not finish script...")
+        print("Warning: Database error.")
 
 
 def main():
