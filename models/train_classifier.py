@@ -132,19 +132,13 @@ def main():
         print('Building model...')
         model = build_model()
 
-        print('Training model...')
-        model.fit(X_train, Y_train)
-
-        print('Evaluating model...')
-        evaluate_model(model, X_test, Y_test, categories)
-
         print('Training model with grid search...')
         model.fit(X_train, Y_train)
 
         print('Best params of grid search...')
         print(model.best_params_)
 
-        print('Evaluating new model...')
+        print('Evaluating model...')
         evaluate_model(model, X_test, Y_test, categories)
 
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
