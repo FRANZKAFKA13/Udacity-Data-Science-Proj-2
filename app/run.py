@@ -15,6 +15,11 @@ app = Flask(__name__)
 
 
 def tokenize(text):
+    """
+
+    :param text: User input taken from website
+    :return: Returns tokenized text that can be used for prediction
+    """
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
 
@@ -31,13 +36,18 @@ engine = create_engine('sqlite:///../data/disaster_response.db')
 df = pd.read_sql_table('messages_categorized', engine)
 
 # load model
-model = joblib.load("../models/classifier_backup.pkl")
+model = joblib.load("../models/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
 def index():
+    """
+
+    :return: Returns a rendered template for the /index directory of the website that includes graphs
+    """
+
     # extract data needed for visuals
     # TODO: Below is an example - modify to extract data for your own visuals
 
@@ -107,6 +117,10 @@ def index():
 # web page that handles user query and displays model results
 @app.route('/go')
 def go():
+    """
+
+    :return: Returns a rendered template for the /go directory of the website includes a visualization of matching classification labels
+    """
     # save user input in query
     query = request.args.get('query', '')
 
@@ -123,6 +137,9 @@ def go():
 
 
 def main():
+    """
+    Run the app on port 3001
+    """
     app.run(host='0.0.0.0', port=3001, debug=True)
 
 
