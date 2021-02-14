@@ -24,6 +24,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
 from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import r2_score
 
 import pickle
 
@@ -64,7 +65,7 @@ def tokenize(text):
 
 def build_model():
     """
-    Function building the ML pipeline, including CountVectorizer, TF-IDF transformer and a multi output classifier using random forest estimator.
+    Pipeline for building the ML model, including CountVectorizer, TF-IDF transformer and a multi output classifier using random forest estimator.
     Using GridSearch for parameter optimization.
     :return: Returns the ML pipeline.
     """
@@ -78,14 +79,29 @@ def build_model():
         # 'vect__ngram_range': ((1,1),(1,2)),
         # 'vect__max_df': (0.5, 0.75, 1.0),
         # 'vect__max_features': (None, 5000, 10000),
-        'clf__estimator__n_estimators': [50, 100, 200, 400, 800],
-        'clf__estimator__max_features': ['auto', 'sqrt'],
-        'clf__estimator__min_samples_split': [2, 3]
+        'clf__estimator__max_depth': [None],
+        'clf__estimator__max_features': ['sqrt'],
+        'clf__estimator__min_samples_split': [2],
+        'clf__estimator__bootstrap': [True],
+        'clf__estimator__min_samples_leaf': [1],
+        'clf__estimator__n_estimators': [100]
     }
 
-    cv = GridSearchCV(pipeline, param_grid=parameters, verbose=10, cv=2)
+    parameters_backup = {
+        # 'vect__ngram_range': ((1,1),(1,2)),
+        # 'vect__max_df': (0.5, 0.75, 1.0),
+        # 'vect__max_features': (None, 5000, 10000),
+        # 'clf__estimator__max_depth': [30, 100, None],
+        'clf__estimator__max_features': ['auto', 'sqrt'],
+        'clf__estimator__min_samples_split': [2, 3],
+        # 'clf__estimator__bootstrap': [True, False],
+        # 'clf__estimator__min_samples_leaf': [1, 2, 4],
+        'clf__estimator__n_estimators': [50, 100, 200, 400, 800]
+    }
 
-    return cv
+    model = GridSearchCV(pipeline, param_grid=parameters, verbose=10, cv=3)
+
+    return model
 
 
 def evaluate_model(model, X_test, Y_test, categories):
@@ -105,6 +121,9 @@ def evaluate_model(model, X_test, Y_test, categories):
         print("Report for category: " + category + '\n')
         print(classification_report(Y_test[category], Y_pred[category]))
         print('\n')
+
+    model_r2_score = r2_score(Y_test, Y_pred)
+    print('The r2 score is: ' + str(model_r2_score))
     pass
 
 
