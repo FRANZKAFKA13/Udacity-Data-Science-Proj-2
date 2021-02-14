@@ -10,7 +10,7 @@ The web app allows the user to input a message via browser. The trained model is
 
 ## Training Dataset
 
-In this project I used two .csv files (`data`) with pre-labelled messages.
+In this project I used [two .csv files](https://github.com/FRANZKAFKA13/Udacity-Data-Science-Proj-2/tree/master/data) with pre-labelled messages.
 
 
 ## Web App Preview
