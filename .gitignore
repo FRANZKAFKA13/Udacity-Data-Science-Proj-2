@@ -1,6 +1,7 @@
 # JupyterNotebooks
-instructions/.ipynb_checkpoints/ML Pipeline Preparation-checkpoint.ipynb
-instructions/.ipynb_checkpoints/ETL Pipeline Preparation-checkpoint.ipynb
+app/test_notebook.ipynb
+instructions/.ipynb_checkpoints/
+app/.ipynb_checkpoints/
 
 # Environments
 venv/
@@ -13,3 +14,5 @@ venv2/
 # ML model exports
 instructions/disaster_response_model.sav
 models/classifier.pkl
+models/classifier_backup.pkl
+
