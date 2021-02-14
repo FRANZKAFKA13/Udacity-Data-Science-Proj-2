@@ -88,15 +88,15 @@ def build_model():
     }
 
     parameters_backup = {
-        # 'vect__ngram_range': ((1,1),(1,2)),
-        # 'vect__max_df': (0.5, 0.75, 1.0),
-        # 'vect__max_features': (None, 5000, 10000),
-        # 'clf__estimator__max_depth': [30, 100, None],
+        'vect__ngram_range': ((1,1),(1,2)),
+        'vect__max_df': (0.5, 0.75, 1.0),
+        'vect__max_features': (None, 5000, 10000),
+        'clf__estimator__max_depth': [30, 100, None],
         'clf__estimator__max_features': ['auto', 'sqrt'],
         'clf__estimator__min_samples_split': [2, 3],
-        # 'clf__estimator__bootstrap': [True, False],
-        # 'clf__estimator__min_samples_leaf': [1, 2, 4],
-        'clf__estimator__n_estimators': [50, 100, 200, 400, 800]
+        'clf__estimator__bootstrap': [True, False],
+        'clf__estimator__min_samples_leaf': [1, 2, 4],
+        'clf__estimator__n_estimators': [50, 100, 200]
     }
 
     model = GridSearchCV(pipeline, param_grid=parameters, verbose=10, cv=3)
