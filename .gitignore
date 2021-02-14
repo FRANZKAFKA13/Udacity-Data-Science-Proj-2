@@ -4,6 +4,7 @@ instructions/.ipynb_checkpoints/ETL Pipeline Preparation-checkpoint.ipynb
 
 # Environments
 venv/
+venv2/
 
 # IDE
 .idea/
