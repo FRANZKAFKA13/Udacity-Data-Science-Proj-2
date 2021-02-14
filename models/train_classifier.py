@@ -43,9 +43,6 @@ def load_data(database_filepath):
     Y = df[categories]
     X = df['message']
 
-    # Replace 2 with 1 in related category
-    Y['related'][Y['related'] == 2] = 1
-
     return X, Y, categories
 
 
@@ -81,8 +78,9 @@ def build_model():
         # 'vect__ngram_range': ((1,1),(1,2)),
         # 'vect__max_df': (0.5, 0.75, 1.0),
         # 'vect__max_features': (None, 5000, 10000),
-        'clf__estimator__n_estimators': [50, 100, 200]
-        # 'clf__estimator__min_samples_split': [2, 3, 4]
+        'clf__estimator__n_estimators': [50, 100, 200, 400, 800],
+        'clf__estimator__max_features': ['auto', 'sqrt'],
+        'clf__estimator__min_samples_split': [2, 3]
     }
 
     cv = GridSearchCV(pipeline, param_grid=parameters, verbose=10, cv=2)
