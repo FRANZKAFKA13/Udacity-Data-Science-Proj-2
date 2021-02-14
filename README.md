@@ -15,6 +15,15 @@ In this project I used two .csv files (`data`) with pre-labelled messages.
 
 ## Web App Preview
 
+The search bar allows to type any kind of message
+
+![Search Bar](assets\images\search_bar.jpg?raw=true "Search Bar")
+
+
+The classified categories of the input message are highlighted
+
+![Output Result](assets\images\result_classification.jpg?raw=true "Output Result")
+
 
 ## Deployment
 
