@@ -48,6 +48,10 @@ def transform_data(df):
     df = df.drop_duplicates('id')
     print('    ' + str(duplicate_count) + ' duplicates dropped.')
 
+    faulty_message_count = (df['related'] == 2).sum()
+    df = df[df['related'] != 2]
+    print('    ' + str(faulty_message_count) + ' faulty messages dropped.')
+
     return df
 
 
