@@ -17,12 +17,12 @@ In this project I used two .csv files (`data`) with pre-labelled messages.
 
 The search bar allows to type any kind of message
 
-![Search Bar](assets/search_bar.jpg?raw=true "Search Bar")
+![Search Bar](assets/search_bar.JPG?raw=true "Search Bar")
 
 
 The classified categories of the input message are highlighted
 
-![Output Result](assets/result_classification.jpg?raw=true "Output Result")
+![Output Result](assets/result_classification.JPG?raw=true "Output Result")
 
 
 ## Deployment
