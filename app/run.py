@@ -40,8 +40,19 @@ model = joblib.load("../models/classifier_backup.pkl")
 def index():
     # extract data needed for visuals
     # TODO: Below is an example - modify to extract data for your own visuals
+
+    # Genre counts
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
+
+    # Category counts
+    category_counts = []
+    category_names = df.columns[4:]
+
+    for category in category_names:
+        count = df[category].sum()
+        category_counts.append(count)
+
 
     # create visuals
     # TODO: Below is an example - modify to create your own visuals
@@ -56,6 +67,25 @@ def index():
 
             'layout': {
                 'title': 'Distribution of Message Genres',
+                'yaxis': {
+                    'title': "Count"
+                },
+                'xaxis': {
+                    'title': "Genre"
+                }
+            }
+        },
+
+        {
+            'data': [
+                Bar(
+                    x=category_names,
+                    y=category_counts
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution of Message Categories',
                 'yaxis': {
                     'title': "Count"
                 },
